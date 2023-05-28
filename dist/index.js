@@ -1,20 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import userRouter from "./routes/UserRouter/UserRouter.js";
 dotenv.config();
-import prisma from "./lib/db.js";
 const app = express();
 const PORT = process.env.PORT || 8888;
+const corsOption = {
+    origin: "*",
+    credentials: true,
+    optionSuccessStatus: 200,
+};
 // Middleware
 app.use(express.json());
+app.use(cors(corsOption));
 app.get("/", async (req, res) => {
-    const user = await prisma.user.create({
-        data: {
-            email: "test@test.com",
-            password: "121212",
-        },
-    });
-    res.status(201).send({ user });
+    res.status(200).send({ msg: "Health Check!" });
 });
+// Users
+app.use("/user", userRouter);
 app.listen(PORT, () => {
     console.log(`App is on port ${PORT}`);
 });
