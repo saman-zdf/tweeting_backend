@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String?   @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  password  String    @unique
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @updatedAt @map(name: "update_at")
+  Tweet     Tweet[]
+  Like      Like[]
+  following Follow[]  @relation("UserFollowing")
+  followers Follow[]  @relation("UserFollowers")
+  Comment   Comment[]
+
+  @@index([id])
+  @@map(name: "users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Tweet {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  content   String?
+  userId    Int       @map(name: "user_id")
+  User      User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Like      Like[]
+  Comment   Comment[]
+
+  @@index([id, userId])
+  @@map(name: "tweets")
+}
+
+model Follow {
+  id              Int      @id @default(autoincrement())
+  follower        User?    @relation("UserFollowing", fields: [followerUserId], references: [id])
+  followerUserId  Int?     @map(name: "follower_user_id")
+  following       User?    @relation("UserFollowers", fields: [followingUserId], references: [id])
+  followingUserId Int?     @map(name: "following_user_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@unique([followerUserId, followingUserId])
+  @@index([id, followerUserId, followingUserId])
+  @@map(name: "follows")
+}
+
+model Like {
+  id      Int   @id @default(autoincrement())
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int   @map(name: "user_id")
+  tweet   Tweet @relation(fields: [tweetId], references: [id])
+  tweetId Int   @map(name: "tweet_id")
+
+  @@unique([userId, tweetId])
+  @@index([id, tweetId, userId])
+  @@map(name: "likes")
+}
+
+model Comment {
+  id      Int     @id @default(autoincrement())
+  content String?
+  user    User    @relation(fields: [userId], references: [id])
+  userId  Int     @map(name: "user_id")
+  tweet   Tweet   @relation(fields: [tweetId], references: [id])
+  tweetId Int     @map(name: "tweet_id")
+
+  @@unique([userId, tweetId])
+  @@index([id, userId, tweetId])
+  @@map(name: "comments")
+}

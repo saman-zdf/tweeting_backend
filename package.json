@@ -1,0 +1,29 @@
+{
+  "name": "tweeting_node_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "start": "node dist/index.js",
+    "dev": "rimraf dist && tsc && nodemon /dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.14.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "prisma": "^4.14.1",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.2.5",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.0.4"
+  }
+}
