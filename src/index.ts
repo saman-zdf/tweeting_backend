@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { Request, Response } from "express";
 import cors from "cors";
 import userRouter from "./routes/UserRouter/UserRouter.js";
+import errorHandlerMiddleware from "./middleware/errorHandler.js";
 
 dotenv.config();
 
@@ -29,6 +30,8 @@ app.get("/", async (req: Request, res: Response) => {
 
 // Users
 app.use("/user", userRouter);
+
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
   console.log(`App is on port ${PORT}`);
