@@ -39,7 +39,7 @@ class SignInUserService {
     Logger.log('service - user - execute');
     await this.validate(user);
     const loggedInUser = await this.userRepository.signIn(user);
-    const token =  jwtAccessToken(loggedInUser);
+    const token = jwtAccessToken(loggedInUser);
     const result = {
       ...loggedInUser,
       token,

@@ -3,6 +3,9 @@ node_modules
 dist
 build
 
+# My TODO
+todo.md
+
 # Env files
 .env
 .env.development
