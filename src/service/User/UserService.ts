@@ -1,8 +1,8 @@
 // TODO: Unused file, as I use Repository design Pattern.
-import * as bcrypt from "bcrypt";
-import prisma from "../../config/db.js";
-import { jwtAccessToken } from "../../lib/jwt.js";
-import { User } from "@prisma/client";
+import * as bcrypt from 'bcrypt';
+import prisma from '../../config/db.js';
+import { jwtAccessToken } from '../../lib/jwt.js';
+import { User } from '@prisma/client';
 
 interface Payload {
   username: string;
@@ -11,7 +11,7 @@ interface Payload {
 }
 
 interface SignUpResponse {
-  userInfo: Omit<User, "password"> & { token: string };
+  userInfo: Omit<User, 'password'> & { token: string };
   isUserExist: User | null;
 }
 

@@ -1,26 +1,22 @@
-import { Response, Request, NextFunction } from "express";
-import { verifyToken } from "../lib/jwt.js";
-import UnauthorizedException from "../error/UnauthorizedException.js";
+import { Response, Request, NextFunction } from 'express';
+import { verifyToken } from '../lib/jwt.js';
+import UnauthorizedException from '../error/UnauthorizedException.js';
+import { extractToken } from '../lib/extractToken.js';
 
-export const authMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const secretKey = process.env.JWT_SECRET_KEY;
-  const header = req.headers["authorization"];
-  if (!header || !header.startsWith("Bearer")) {
-    throw new UnauthorizedException("Unauthorized");
+interface AuthenticatedRequest extends Request {
+  user: {
+    userId: string;
+  };
+}
+
+export const authMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const header = extractToken(req);
+  if (!header || !header.startsWith('Bearer')) {
+    throw new UnauthorizedException('Unauthorized');
   }
+  const token = header.split(' ')[0];
+  const decoded = await verifyToken(token);
+  req.user = { userId: decoded.userId };
 
-  const token = header.split(" ")[0];
-  try {
-    const payload = await verifyToken(token);
-    // TODO: How to append the userId to the request??
-    // req.user = {}
-
-    next();
-  } catch (error) {
-    throw new UnauthorizedException("Unauthorized");
-  }
+  next();
 };

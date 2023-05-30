@@ -1,10 +1,10 @@
-import BadRequestException from "../../error/BadRequestException.js";
-import UserRepository from "../../repository/UserRepository/UserRepository.js";
-import { validateEmail } from "../../lib/common/validateEmail.js";
-import { hashPassword } from "../../lib/common/hashPassword.js";
-import { UserPayload } from "../../repository/UserRepository/Interfaces/UserRepositoryInterface.js";
-import { jwtAccessToken } from "../../lib/jwt.js";
-import { Logger } from "../../lib/common/Logger.js";
+import BadRequestException from '../../error/BadRequestException.js';
+import UserRepository from '../../repository/UserRepository/UserRepository.js';
+import { validateEmail } from '../../lib/common/validateEmail.js';
+import { hashPassword } from '../../lib/common/hashPassword.js';
+import { UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
+import { jwtAccessToken } from '../../lib/jwt.js';
+import { Logger } from '../../lib/common/Logger.js';
 
 class SignUpUserService {
   private userRepository: UserRepository;
@@ -17,23 +17,22 @@ class SignUpUserService {
     const { email, password } = payload;
 
     if (!email || !password) {
-      Logger.error(`Error - no pass | email`);
-      throw new BadRequestException("Email & Password are required.");
+      Logger.error(`Error - no pass | email - sign-up`);
+      throw new BadRequestException('Email & Password are required.');
     }
 
     const isEmailValid = validateEmail(email);
     if (!isEmailValid) {
       Logger.error(`Error - no valid email`);
-      throw new BadRequestException(
-        "Email is not valid, please provide a valid email."
-      );
+      throw new BadRequestException('Email is not valid, please provide a valid email.');
     }
 
     const isUserExist = await this.userRepository.getUserByEmail(email);
 
-    if (Boolean(isUserExist)) {
+    if (isUserExist) {
+      Logger.error(`Error - email in use`);
       throw new BadRequestException(
-        `User with email ${isUserExist.email} already in use. Please try with different email or simply login.`
+        `User with email ${isUserExist.email} already in use. Please try with different email or simply login.`,
       );
     }
   }
@@ -49,17 +48,17 @@ class SignUpUserService {
   }
 
   public async execute(user: UserPayload) {
-    Logger.log("service - user - execute");
+    Logger.log('service - user - execute');
 
     await this.validate(user);
     const data = await this.formatPayload(user);
     const createdUser = await this.userRepository.signUp(data);
-    const token = await jwtAccessToken(createdUser);
+    const token = jwtAccessToken(createdUser);
     const result = {
       ...createdUser,
       token,
     };
-    Logger.log(`user success sign-up - userId: ${result.id} - execute`);
+    Logger.success(`user success sign-up - userId: ${result.id} - execute done`);
 
     return result;
   }

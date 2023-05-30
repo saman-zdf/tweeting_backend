@@ -1,4 +1,9 @@
+# Directory
 node_modules
 dist
+build
 
-.env*
+# Env files
+.env
+.env.development
+.env.test

@@ -1,5 +1,3 @@
-class TwitterRepository {
-  constructor() {}
-}
+class TwitterRepository {}
 
 export default TwitterRepository;
