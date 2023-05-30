@@ -7,7 +7,9 @@
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "node dist/index.js",
-    "dev": "rimraf dist && tsc && nodemon /dist/index.js"
+    "dev": "rimraf dist && tsc && nodemon /dist/index.js",
+    "test:up": "docker-compose -f docker-compose.test.yml up -d",
+    "test:down": "docker-compose -f docker-compose.test.yml down"
   },
   "keywords": [],
   "author": "",

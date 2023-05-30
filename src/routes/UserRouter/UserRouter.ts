@@ -1,10 +1,14 @@
 import express from "express";
-import { UserSignUp } from "../../controller/UserController/UserController.js";
+import { signUp } from "../../controller/UserController/UserController.js";
 import { tryCatch } from "../../utils/tryCatch.js";
 
 const router = express.Router();
 
-// User Signup
-router.post("/sign-up", tryCatch(UserSignUp));
+// User SignUp
+router.post("/sign-up", tryCatch(signUp));
+
+// TODO: Add singIn functionality
+// User SignIn
+// router.post("/sign-in", tryCatch(signIn));
 
 export default router;

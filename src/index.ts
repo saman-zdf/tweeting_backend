@@ -34,5 +34,5 @@ app.use("/user", userRouter);
 app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
-  console.log(`App is on port ${PORT}`);
+  console.log(`server is listening on port ${PORT}`);
 });

@@ -1,29 +1,12 @@
 import { Request, Response } from "express";
-import { signUp } from "../../service/User/UserService.js";
-import BadRequestException from "../../error/BadRequestException.js";
+import { UserPayload } from "../../repository/UserRepository/Interfaces/UserRepositoryInterface.js";
+import { StatusCode } from "../../utils/StatusCodes.js";
+import SignUpUserService from "../../service/User/SignUpUser.service.js";
+import { Logger } from "../../lib/common/Logger.js";
 
-interface ReqBody {
-  username: string;
-  email: string;
-  password: string;
-}
-
-const EMPTY_INPUT = "" || null || undefined;
-
-export const UserSignUp = async (req: Request, res: Response) => {
-  const body: ReqBody = req.body;
-  const { email, password } = body;
-
-  if (!email || !password) {
-    throw new BadRequestException("Email & Password must be provided.");
-  }
-
-  const { userInfo, isUserExist } = await signUp(body);
-
-  if (isUserExist)
-    throw new BadRequestException(
-      `User with email ${isUserExist.email} already in use. Please try with different email or simply login.`
-    );
-
-  res.status(201).json({ user: userInfo });
+export const signUp = async (req: Request, res: Response) => {
+  Logger.log("controller - user - sing-up");
+  const payload: UserPayload = req.body;
+  const promisedUser = await new SignUpUserService().execute(payload);
+  res.status(StatusCode.Created).json({ user: promisedUser });
 };

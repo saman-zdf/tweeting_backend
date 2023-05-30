@@ -1,9 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
+
+import { StatusCode } from "../utils/StatusCodes.js";
 import BadRequestException from "../error/BadRequestException.js";
 import NotFoundException from "../error/NotFoundException.js";
 import UnauthenticatedException from "../error/unauthenticatedException.js";
-import { StatusCode } from "../utils/StatusCodes.js";
+import UnauthorizedException from "../error/UnauthorizedException.js";
 
 enum ErrorKey {
   Code = "P2002",
@@ -26,6 +28,8 @@ const errorHandlerMiddleware = (
   if (err instanceof NotFoundException) defaultError.code = StatusCode.NotFound;
   if (err instanceof UnauthenticatedException)
     defaultError.code = StatusCode.Unauthenticated;
+  if (err instanceof UnauthorizedException)
+    defaultError.code = StatusCode.Unauthorized;
 
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code && err.code === ErrorKey.Code) {

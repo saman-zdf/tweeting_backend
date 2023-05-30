@@ -1,7 +1,8 @@
+// TODO: Unused file, as I use Repository design Pattern.
 import * as bcrypt from "bcrypt";
-import prisma from "../../lib/db.js";
+import prisma from "../../config/db.js";
 import { jwtAccessToken } from "../../lib/jwt.js";
-import { User, Prisma } from "@prisma/client";
+import { User } from "@prisma/client";
 
 interface Payload {
   username: string;
