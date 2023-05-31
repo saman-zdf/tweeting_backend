@@ -7,7 +7,6 @@ const authRouter = express.Router();
 // User SignUp
 authRouter.post('/sign-up', tryCatch(signUp));
 
-// TODO: Add singIn functionality
 // User SignIn
 authRouter.post('/sign-in', tryCatch(signIn));
 

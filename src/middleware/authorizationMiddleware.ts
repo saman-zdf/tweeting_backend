@@ -1,22 +1,22 @@
-import { Response, Request, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { verifyToken } from '../lib/jwt.js';
 import UnauthorizedException from '../error/UnauthorizedException.js';
-import { extractToken } from '../lib/extractToken.js';
-
-interface AuthenticatedRequest extends Request {
-  user: {
-    userId: string;
-  };
-}
+import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
+import { Logger } from '../lib/common/Logger.js';
+import { StatusCode } from '../utils/StatusCodes.js';
+import { AuthenticatedRequest } from '../utils/types/authTypes.js';
 
 export const authMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const header = extractToken(req);
-  if (!header || !header.startsWith('Bearer')) {
-    throw new UnauthorizedException('Unauthorized');
+  try {
+    const { header, token } = await tokenDecoderAndInfoExtractor(req);
+    if (!header || !header.startsWith('Bearer') || !token) {
+      Logger.error('Error, missing bearer token');
+      throw new UnauthorizedException('Unauthorized');
+    }
+    const decoded = verifyToken(token);
+    req.user = { userId: decoded.id };
+    next();
+  } catch (error) {
+    res.status(StatusCode.Unauthorized).json({ error: error.message });
   }
-  const token = header.split(' ')[0];
-  const decoded = await verifyToken(token);
-  req.user = { userId: decoded.userId };
-
-  next();
 };
