@@ -3,7 +3,7 @@ import prisma from '../../config/db.js';
 import { TweetPayload, TweetRepositoryInterface, TweetUpdatePayload } from './interface/TweetRepositoryInterface.js';
 import { Logger } from '../../lib/common/Logger.js';
 
-class TwitterRepository implements TweetRepositoryInterface {
+class TweetRepository implements TweetRepositoryInterface {
   private prisma: PrismaClient;
 
   constructor() {
@@ -79,4 +79,4 @@ class TwitterRepository implements TweetRepositoryInterface {
   }
 }
 
-export default TwitterRepository;
+export default TweetRepository;

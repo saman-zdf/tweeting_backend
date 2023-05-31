@@ -1,16 +1,16 @@
 import { Tweet } from '@prisma/client';
 import BadRequestException from '../../error/BadRequestException.js';
 import { Logger } from '../../lib/common/Logger.js';
-import TwitterRepository from '../../repository/TweetRepository/TweetRepository.js';
+import TweetRepository from '../../repository/TweetRepository/TweetRepository.js';
 import { TweetPayload } from '../../repository/TweetRepository/interface/TweetRepositoryInterface.js';
 import UnauthorizedException from '../../error/UnauthorizedException.js';
 import { MAXIMUM_TWEET_LENGTH } from '../../constants/Constants.js';
 
 class CreateTweetService {
-  private tweetRepository: TwitterRepository;
+  private tweetRepository: TweetRepository;
 
   constructor() {
-    this.tweetRepository = new TwitterRepository();
+    this.tweetRepository = new TweetRepository();
   }
 
   async validate(payload: TweetPayload) {

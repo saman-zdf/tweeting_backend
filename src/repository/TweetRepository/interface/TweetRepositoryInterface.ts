@@ -7,7 +7,7 @@ export interface TweetPayload {
   gifUrl?: string;
 }
 
-export interface TweetUpdatePayload extends Omit<TweetPayload, 'userId'> {
+export interface TweetUpdatePayload extends TweetPayload {
   tweetId: number;
 }
 
