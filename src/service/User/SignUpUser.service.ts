@@ -14,12 +14,7 @@ class SignUpUserService {
   }
 
   private async validate(payload: UserPayload) {
-    const { email, password } = payload;
-
-    if (!email || !password) {
-      Logger.error(`Error - no pass | email - sign-up`);
-      throw new BadRequestException('Email & Password are required.');
-    }
+    const { email } = payload;
 
     const isEmailValid = validateEmail(email);
     if (!isEmailValid) {
@@ -32,7 +27,7 @@ class SignUpUserService {
     if (isUserExist) {
       Logger.error(`Error - email in use`);
       throw new BadRequestException(
-        `User with email ${isUserExist.email} already in use. Please try with different email or simply login.`,
+        `User with email ${isUserExist.email} already in has an account. Please try with different email or simply login again.`,
       );
     }
   }
@@ -48,8 +43,6 @@ class SignUpUserService {
   }
 
   public async execute(user: UserPayload) {
-    Logger.log('service - user - execute');
-
     await this.validate(user);
     const data = await this.formatPayload(user);
     const createdUser = await this.userRepository.signUp(data);
