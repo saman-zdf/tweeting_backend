@@ -15,16 +15,13 @@ class SignInUserService {
   private async validate(payload: SignInPayload) {
     const { email, password } = payload;
 
-    if (!email || !password) {
-      Logger.error(`Error - no pass | email - sign-in`);
-      throw new BadRequestException('Email & Password are required.');
-    }
-
     const user = await this.userRepository.getUserByEmail(email);
 
     if (!user) {
       Logger.error(`Error - user-no-exist - sign-in`);
-      throw new BadRequestException(`User with email ${email} does not exist, please try again or create an account.`);
+      throw new BadRequestException(
+        `Wrong email, email ${email} does not exist, please try again or create an account.`,
+      );
     }
 
     const isPasswordValid = await comparePassword(password, user.password);
@@ -36,7 +33,6 @@ class SignInUserService {
   }
 
   public async execute(user: SignInPayload) {
-    Logger.log('service - user - execute');
     await this.validate(user);
     const loggedInUser = await this.userRepository.signIn(user);
     const token = jwtAccessToken(loggedInUser);

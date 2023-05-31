@@ -25,7 +25,6 @@ class UpdateTweetService {
 
     const { createdAt } = tweetToUpdate;
     const isUpdateDurationExpired = calculateUpdateExpirationMinutes(createdAt, this.updateExpirationMinutes);
-    Logger.log(`${isUpdateDurationExpired} Expire service`);
 
     if (isUpdateDurationExpired) {
       Logger.error('Error, update-time expired');
@@ -38,7 +37,6 @@ class UpdateTweetService {
   }
 
   async execute(payload: TweetUpdatePayload) {
-    Logger.log('tweet-service - tweet-update - execute start.');
     await this.validate(payload);
 
     const updatedTweet = await this.tweetRepository.updateTweet(payload, { likes: true, comments: true });
