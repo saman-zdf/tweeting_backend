@@ -1,13 +1,12 @@
-import { Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
 import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
 import { Logger } from '../lib/common/Logger.js';
 import { StatusCode } from '../utils/StatusCodes.js';
 import UnauthenticatedException from '../error/unauthenticatedException.js';
 import prisma from '../config/db.js';
-import { AuthenticatedRequest } from '../utils/types/authTypes.js';
 import NotFoundException from '../error/NotFoundException.js';
 
-export const tweetUpdateAuthMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const tweetUpdateAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { tweetId, userId } = await tokenDecoderAndInfoExtractor(req);
     // CRUCIAL:
@@ -28,13 +27,14 @@ export const tweetUpdateAuthMiddleware = async (req: AuthenticatedRequest, res: 
     }
 
     next();
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     const errorMessage: { error: string; code: number } = {
       error: 'Unauthenticated, forbidden.',
       code: StatusCode.Unauthenticated,
     };
 
-    if (error.code === StatusCode.NotFound) {
+    if (error?.code === StatusCode.NotFound) {
       errorMessage.error = `Tweet with tweetId ${req.params.tweetId} not found.`;
       errorMessage.code = StatusCode.NotFound;
     }

@@ -1,9 +1,9 @@
 import CustomAPIError from './CustomAPIError.js';
 import { StatusCode } from '../utils/StatusCodes.js';
 class NotFoundException extends CustomAPIError {
-  message: string;
+  message!: string;
   code: number;
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.code = StatusCode.NotFound;
   }

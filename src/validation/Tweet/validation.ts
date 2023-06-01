@@ -24,7 +24,7 @@ export const twitterPayloadValidation =
     // Just double checking that token is valid and has the same userId and tweet in question to update. in the route, before calling the controller
     const header = extractToken(req);
     const token = header?.split(' ')[1];
-    const userId = verifyToken(token).id;
+    const userId = verifyToken?.(token!)?.id;
     const body: TweetUpdatePayload = req.body;
     const { content, imageUrl, gifUrl } = body;
 

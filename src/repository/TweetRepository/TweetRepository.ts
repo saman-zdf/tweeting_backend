@@ -78,7 +78,8 @@ class TweetRepository implements TweetRepositoryInterface {
       include,
     });
 
-    return tweet;
+    // TODO: Double test this after big refactoring on ts-config!!!!
+    return tweet!;
   }
 
   async getUserTweets(userId: number): Promise<Tweet[]> {

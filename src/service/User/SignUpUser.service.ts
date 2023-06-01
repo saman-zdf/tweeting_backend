@@ -46,7 +46,7 @@ class SignUpUserService {
     await this.validate(user);
     const data = await this.formatPayload(user);
     const createdUser = await this.userRepository.signUp(data);
-    const token = jwtAccessToken(createdUser);
+    const token = jwtAccessToken(createdUser!);
     const result = {
       ...createdUser,
       token,

@@ -1,12 +1,11 @@
-import { Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
 import { verifyToken } from '../lib/jwt.js';
 import UnauthorizedException from '../error/UnauthorizedException.js';
 import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
 import { Logger } from '../lib/common/Logger.js';
 import { StatusCode } from '../utils/StatusCodes.js';
-import { AuthenticatedRequest } from '../utils/types/authTypes.js';
 
-export const authMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { header, token } = await tokenDecoderAndInfoExtractor(req);
     if (!header || !header.startsWith('Bearer') || !token) {
@@ -14,9 +13,13 @@ export const authMiddleware = async (req: AuthenticatedRequest, res: Response, n
       throw new UnauthorizedException('Unauthorized');
     }
     const decoded = verifyToken(token);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     req.user = { userId: decoded?.id };
     next();
   } catch (error) {
-    res.status(StatusCode.Unauthorized).json({ error: error });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    res.status(StatusCode.Unauthorized).json({ error: error?.message });
   }
 };
