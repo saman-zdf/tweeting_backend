@@ -1,10 +1,12 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import CreateTweetService from '../../service/Tweet/CreateTweet.service.js';
 import { StatusCode } from '../../utils/StatusCodes.js';
 import { TweetPayload } from '../../repository/TweetRepository/interface/TweetRepositoryInterface.js';
 import { Logger } from '../../lib/common/Logger.js';
 import UpdateTweetService from '../../service/Tweet/UpdateTweet.service.js';
 import { AuthenticatedRequest } from '../../utils/types/authTypes.js';
+import GetAllTweetsService from '../../service/Tweet/GetAllTweets.service.js';
+import GetUserLatestTweetService from '../../service/Tweet/GetUserLatestTweet.service.js';
 
 // Create tweet
 export const createTweet = async (req: AuthenticatedRequest, res: Response) => {
@@ -42,7 +44,33 @@ export const updateTweet = async (req: AuthenticatedRequest, res: Response) => {
   };
   const updatedTweet = await new UpdateTweetService().execute(payload);
   if (updatedTweet) {
-    Logger.endpoint('Patch', StatusCode.OK, req.originalUrl);
+    Logger.endpoint('PATCH', StatusCode.OK, req.originalUrl);
   }
   res.status(StatusCode.OK).json({ tweet: updatedTweet });
+};
+
+// Get all tweets
+export const getAllTweets = async (req: Request, res: Response) => {
+  const tweets = await new GetAllTweetsService().execute();
+
+  if (tweets.length) {
+    Logger.endpoint('GET', StatusCode.OK, req.originalUrl);
+  }
+
+  res.status(StatusCode.OK).json({ tweets });
+};
+
+// Get user latest tweets
+
+export const getUserLatestTweet = async (req: Request, res: Response) => {
+  const userIds = req.query.userIds as string;
+  const userIdsToNumber = userIds.split(',').map(Number);
+
+  const usersLatestTweet = await new GetUserLatestTweetService().execute(userIdsToNumber);
+
+  if (usersLatestTweet?.length) {
+    Logger.endpoint('GET', StatusCode.OK, req.originalUrl);
+  }
+
+  res.status(StatusCode.OK).json({ usersLatestTweet });
 };

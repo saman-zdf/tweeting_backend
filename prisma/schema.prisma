@@ -64,11 +64,12 @@ model Follow {
 }
 
 model Like {
-  id      Int   @id @default(autoincrement())
-  user    User  @relation(fields: [userId], references: [id])
-  userId  Int   @map(name: "user_id")
-  tweet   Tweet @relation(fields: [tweetId], references: [id])
-  tweetId Int   @map(name: "tweet_id")
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @map(name: "user_id")
+  tweet     Tweet    @relation(fields: [tweetId], references: [id])
+  tweetId   Int      @map(name: "tweet_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@unique([userId, tweetId])
   @@index([id, tweetId, userId])
@@ -76,12 +77,13 @@ model Like {
 }
 
 model Comment {
-  id      Int     @id @default(autoincrement())
-  content String?
-  user    User    @relation(fields: [userId], references: [id])
-  userId  Int     @map(name: "user_id")
-  tweet   Tweet   @relation(fields: [tweetId], references: [id])
-  tweetId Int     @map(name: "tweet_id")
+  id        Int      @id @default(autoincrement())
+  content   String?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @map(name: "user_id")
+  tweet     Tweet    @relation(fields: [tweetId], references: [id])
+  tweetId   Int      @map(name: "tweet_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@unique([userId, tweetId])
   @@index([id, userId, tweetId])

@@ -5,3 +5,11 @@ export interface AuthenticatedRequest extends Request {
     userId: string;
   };
 }
+
+export interface RequestWithParams extends Request {
+  req: {
+    query: {
+      userIds: string;
+    };
+  };
+}

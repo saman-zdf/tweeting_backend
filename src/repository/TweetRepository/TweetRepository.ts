@@ -39,16 +39,31 @@ class TweetRepository implements TweetRepositoryInterface {
         gifUrl,
         imageUrl,
       },
+
       include,
     });
 
     return tweet;
   }
 
-  async getAllTweets(include: Prisma.TweetInclude): Promise<Tweet[]> {
+  async getAllTweets(): Promise<Tweet[]> {
     Logger.log('tweet-repository - get-all-tweets');
     const tweets = await this.prisma.tweet.findMany({
-      include,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        likes: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        comments: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
     });
 
     return tweets;
@@ -66,16 +81,60 @@ class TweetRepository implements TweetRepositoryInterface {
     return tweet;
   }
 
-  async getUserTweets(userId: number, include: Prisma.TweetInclude): Promise<Tweet[]> {
+  async getUserTweets(userId: number): Promise<Tweet[]> {
     Logger.log('tweet-repository - get-users-tweets');
     const usersTweets = await this.prisma.tweet.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
       where: {
         userId,
       },
-      include,
+      include: {
+        likes: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        comments: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
     });
 
     return usersTweets;
+  }
+
+  async getUserLatestTweet(userIds: number[]): Promise<Tweet[]> {
+    Logger.log('tweet-repository - get-users-latest-tweet');
+
+    const userLatestTweets = await this.prisma.tweet.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      distinct: ['userId'],
+      where: {
+        userId: {
+          in: userIds,
+        },
+      },
+      include: {
+        likes: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        comments: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+    });
+
+    return userLatestTweets;
   }
 }
 

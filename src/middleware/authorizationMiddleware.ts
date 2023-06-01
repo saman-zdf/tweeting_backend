@@ -14,9 +14,9 @@ export const authMiddleware = async (req: AuthenticatedRequest, res: Response, n
       throw new UnauthorizedException('Unauthorized');
     }
     const decoded = verifyToken(token);
-    req.user = { userId: decoded.id };
+    req.user = { userId: decoded?.id };
     next();
   } catch (error) {
-    res.status(StatusCode.Unauthorized).json({ error: error.message });
+    res.status(StatusCode.Unauthorized).json({ error: error });
   }
 };
