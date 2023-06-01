@@ -15,7 +15,7 @@ export const tokenDecoderAndInfoExtractor = async (req: Request) => {
   const result: { userId?: number; token?: string; header?: string | undefined; tweetId?: number } = {
     userId,
     token,
-    header: header,
+    header: header!,
   };
 
   if (tweetId) {

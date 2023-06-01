@@ -18,7 +18,7 @@ class GetAllTweetsService {
   }
 
   async execute() {
-    const tweets = await this.tweetRepository.getAllTweets({ likes: true, comments: true });
+    const tweets = await this.tweetRepository.getAllTweets();
 
     await this.validate(tweets);
     Logger.success('success - get-all-tweets - execute done.');

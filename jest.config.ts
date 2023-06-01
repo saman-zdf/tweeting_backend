@@ -2,13 +2,28 @@
 export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
-  },
+  testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
+  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/**/*.{spec,test}.ts'],
+  coverageDirectory: 'coverage',
+  resetMocks: true,
+  clearMocks: true,
 };
+
+// /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+// export default {
+//   preset: 'ts-jest',
+//   testEnvironment: 'node',
+//   extensionsToTreatAsEsm: ['.ts'],
+
+//   // globals: {
+//   //   'ts-jest': {
+//   //     useESM: true,
+//   //   },
+//   // },
+//   moduleNameMapper: {
+//     '^(\\.{1,2}/.*)\\.js$': '$1',
+//   },
+// };

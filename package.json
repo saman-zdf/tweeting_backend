@@ -8,7 +8,7 @@
     "build": "tsup src --out-dir build",
     "start": "node build/server.js",
     "dev": "tsx watch src/server.ts",
-    "test": "dotenv -e .env.test jest -i",
+    "test": "dotenv -e .env.test prisma migrate dev && jest --watch",
     "test:up": "docker-compose -f docker-compose.test.yml up -d",
     "test:down": "docker-compose -f docker-compose.test.yml down",
     "eslint:check": "./node_modules/.bin/eslint . --config .eslintrc.json --ext .ts,.js --max-warnings=0",

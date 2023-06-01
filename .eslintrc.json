@@ -13,6 +13,7 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-console": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "semi": ["error", "always"],
     "prefer-destructuring": [
       "error",
