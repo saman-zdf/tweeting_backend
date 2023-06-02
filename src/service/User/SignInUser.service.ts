@@ -36,8 +36,10 @@ class SignInUserService {
     await this.validate(user);
     const loggedInUser = await this.userRepository.signIn(user);
     const token = jwtAccessToken(loggedInUser!);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userInfo } = loggedInUser;
     const result = {
-      ...loggedInUser,
+      ...userInfo,
       token,
     };
 
