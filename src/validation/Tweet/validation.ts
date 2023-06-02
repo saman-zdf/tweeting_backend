@@ -4,7 +4,7 @@ import { StatusCode } from '../../utils/StatusCodes.js';
 import { TweetUpdatePayload } from '../../repository/TweetRepository/interface/TweetRepositoryInterface.js';
 import { extractToken } from '../../lib/extractToken.js';
 import { verifyToken } from '../../lib/jwt.js';
-import { Logger } from '../../lib/common/Logger.js';
+import logger from '../../lib/common/Logger.js';
 
 /* Tweet validation */
 export const tweetCreateSchema = z.object({
@@ -36,11 +36,11 @@ export const twitterPayloadValidation =
         gifUrl,
       })
       .then(() => {
-        Logger.success('Validation passed.');
+        logger.info('tweet-auth-schema - validation passed.');
         return next();
       })
       .catch((error) => {
-        Logger.error('Validation Error');
+        logger.error('tweet-auth-schema - validation Error');
         res.status(StatusCode.BadRequest).json(error);
       });
   };

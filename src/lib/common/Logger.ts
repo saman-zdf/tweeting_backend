@@ -7,60 +7,56 @@ const COLORS = {
   reset: '\u001b[0m',
 };
 
-export const Logger = {
-  log: (message: string) => {
-    console.log('[' + COLORS.blue + 'LOG' + COLORS.reset + '] ' + message);
-  },
+import { createLogger, format, transports } from 'winston';
 
-  dir: (message: object) => {
-    console.dir(message);
-  },
+const { combine, timestamp, json, errors, printf } = format;
 
-  initial: (message: string) => {
-    console.log(COLORS.blue + message + COLORS.reset);
-  },
-  error: (message: string) => {
-    console.log(COLORS.red + message + COLORS.reset);
-  },
-  success: (message: string) => {
-    console.log(COLORS.green + message + COLORS.reset);
-  },
-  endpoint: (httpVerb: string, status: number, endpoint: string) => {
-    console.log(
-      '[' +
-        COLORS.blue +
-        httpVerb +
-        COLORS.reset +
-        ']: ' +
-        '(' +
-        COLORS.yellow +
-        `Status Code: ${status}` +
-        COLORS.reset +
-        ') ' +
-        '[' +
-        COLORS.green +
-        `Endpoint: ${endpoint}` +
-        COLORS.reset +
-        ']',
-    );
-  },
-  endpointError: (httpVerb: string, status: number, endpoint: string) => {
-    console.log(
-      '[' +
-        COLORS.red +
-        httpVerb +
-        COLORS.reset +
-        ']: ' +
-        '(' +
-        COLORS.yellow +
-        `Status Code: ${status}` +
-        COLORS.reset +
-        ') ' +
-        '[' +
-        COLORS.blue +
-        `Endpoint: ${endpoint}` +
-        COLORS.reset +
-        ']',
-    );
-  },
+const productionLogger = () => {
+  return createLogger({
+    format: combine(timestamp(), errors({ stack: true }), json()),
+    defaultMeta: { service: 'user-service' },
+    transports: [new transports.Console()],
+  });
 };
+
+const developmentLogger = () => {
+  const logFormat = printf(({ level, message, timestamp, stack }) => {
+    return `${timestamp} ${level}: ${stack || COLORS.blue + message + COLORS.reset}`;
+  });
+
+  return createLogger({
+    format: combine(
+      format.colorize(),
+
+      timestamp({ format: 'HH:mm' }),
+      errors({ stack: true }),
+      logFormat,
+    ),
+    transports: [new transports.Console()],
+  });
+};
+
+const testEnvLogger = () => {
+  const logFormat = printf(({ level, message, timestamp, stack }) => {
+    return `${timestamp} ${level}: ${stack || message}`;
+  });
+
+  return createLogger({
+    format: combine(logFormat),
+    transports: [new transports.Console()],
+    silent: true,
+  });
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let logger: any | null = null;
+
+if (process.env.NODE_ENV === 'production') {
+  logger = productionLogger();
+} else if (process.env.NODE_ENV === 'test') {
+  logger = testEnvLogger();
+} else {
+  logger = developmentLogger();
+}
+
+export default logger;

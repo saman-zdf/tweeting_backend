@@ -4,5 +4,8 @@ declare namespace Express {
     user?: {
       userId?: any;
     };
+    query?: {
+      userId?: string | undefined;
+    };
   }
 }
