@@ -9,9 +9,7 @@ import GetUserLatestTweetService from '../../service/Tweet/GetUserLatestTweet.se
 
 // Create tweet
 export const createTweet = async (req: Request, res: Response): Promise<void> => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const userId = parseInt(req.user.userId, 10);
+  const userId = parseInt(req?.user?.userId, 10);
 
   const { content, imageUrl, gifUrl }: TweetPayload = req.body;
   const payload = {
@@ -31,11 +29,8 @@ export const createTweet = async (req: Request, res: Response): Promise<void> =>
 
 // Update tweet
 export const updateTweet = async (req: Request, res: Response): Promise<void> => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const userId = parseInt(req.user.userId, 10);
+  const userId = parseInt(req?.user?.userId, 10);
   const tweetId = parseInt(req.params.tweetId, 10);
-  // TODO: I need to check the userId against tweet in question to update and if the userId from auth does not match the tweet in question to update userId, throw an Error and Log the user out and redirect to login page.
 
   const { content, imageUrl, gifUrl }: TweetPayload = req.body;
   const payload = {

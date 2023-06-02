@@ -9,6 +9,8 @@ let prisma: PrismaClient;
 
 if (process.env.Node_ENV === 'production') {
   prisma = new PrismaClient();
+} else if (process.env.Node_ENV === 'test') {
+  prisma = new PrismaClient();
 } else {
   if (!global.cachedPrisma) {
     global.cachedPrisma = new PrismaClient();

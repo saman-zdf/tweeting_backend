@@ -2,7 +2,7 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "typeRoots": ["node_modules/@types"],
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "./types/express.d.ts"],
     /* Language and Environment */
     "target": "es2020",
     /* Modules */
