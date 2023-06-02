@@ -17,7 +17,7 @@ describe('User API - [POST] /user/sign-up', () => {
 
   let prismaDB: PrismaClient;
 
-  const singUpUser = async (payload: object) => {
+  const signUpUser = async (payload: object) => {
     return await request.post('/user/sign-up').send(payload);
   };
 
@@ -41,7 +41,7 @@ describe('User API - [POST] /user/sign-up', () => {
 
   test('Test should return error for missing Email and Password', async () => {
     const payload = {};
-    const res = await singUpUser(payload);
+    const res = await signUpUser(payload);
     const data = parseJson(res.text)?.issues;
 
     expect(data).toEqual([
@@ -64,7 +64,7 @@ describe('User API - [POST] /user/sign-up', () => {
 
   test('Test should return error for invalid email.', async () => {
     const payload = { email: 'invalidEmail', password: 'secret' };
-    const res = await singUpUser(payload);
+    const res = await signUpUser(payload);
     const data = parseJson(res.text)?.issues;
 
     expect(data).toEqual([
@@ -79,7 +79,7 @@ describe('User API - [POST] /user/sign-up', () => {
 
   test('Test should return error for not meeting the minimum characters', async () => {
     const payload = { email: 'sam@email.test.com', password: '1' };
-    const res = await singUpUser(payload);
+    const res = await signUpUser(payload);
     const data = parseJson(res.text)?.issues;
 
     expect(data).toEqual([
@@ -100,7 +100,7 @@ describe('User API - [POST] /user/sign-up', () => {
       email: 'sam@email.test.com',
       password: 'asdbnmajklsfakldsafndfkaakldfalkffdaklfhadlkfakldjfhadklhfakdfhlkfhdklfhdlfndfkahdflkahdfl',
     };
-    const res = await singUpUser(payload);
+    const res = await signUpUser(payload);
     const data = parseJson(res.text)?.issues;
 
     expect(data).toEqual([
@@ -117,10 +117,10 @@ describe('User API - [POST] /user/sign-up', () => {
   });
 
   test('Test successful user sign-up', async () => {
-    const payload = { email: 'sam@test.test.com', password: 'secrettest' };
+    const payload = { email: 'sam@test.test.com', password: 'testing' };
     const {
       body: { user },
-    } = await singUpUser(payload);
+    } = await signUpUser(payload);
 
     expect(user).toHaveProperty('token');
     expect(user.email).toBe('sam@test.test.com');

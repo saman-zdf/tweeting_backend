@@ -1,9 +1,8 @@
-// import { Request as Req } from 'express';
-
-// declare namespace Express {
-//   interface Request extends Req {
-//     user: {
-//       userId: number;
-//     };
-//   }
-// }
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare namespace Express {
+  interface Request {
+    user?: {
+      userId?: any;
+    };
+  }
+}

@@ -13,13 +13,12 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       throw new UnauthorizedException('Unauthorized');
     }
     const decoded = verifyToken(token);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+
     req.user = { userId: decoded?.id };
     next();
-  } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     res.status(StatusCode.Unauthorized).json({ error: error?.message });
   }
 };

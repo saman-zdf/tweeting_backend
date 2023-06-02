@@ -3,9 +3,11 @@ version: '3.7'
 services:
   database:
     image: mysql:5.7
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=tweeting_test_db
+      - MYSQL_ROOT_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=saman1989
+      - MYSQL_DATABASE=tweeting_backend_test
     volumes:
       - database:/var/lib/mysql
     ports:
