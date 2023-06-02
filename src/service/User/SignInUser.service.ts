@@ -1,7 +1,7 @@
 import BadRequestException from '../../error/BadRequestException.js';
 import UserRepository from '../../repository/UserRepository/UserRepository.js';
 import { comparePassword } from '../../lib/common/comparePassword.js';
-import { Logger } from '../../lib/common/Logger.js';
+import logger from '../../lib/common/Logger.js';
 import { SignInPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
 import { jwtAccessToken } from '../../lib/jwt.js';
 
@@ -18,7 +18,7 @@ class SignInUserService {
     const user = await this.userRepository.getUserByEmail(email);
 
     if (!user) {
-      Logger.error(`Error - user-no-exist - sign-in`);
+      logger.error(`Error - user-no-exist - sign-in`);
       throw new BadRequestException(
         `Wrong email, email ${email} does not exist, please try again or create an account.`,
       );
@@ -27,7 +27,7 @@ class SignInUserService {
     const isPasswordValid = await comparePassword(password, user.password);
 
     if (!isPasswordValid) {
-      Logger.error(`Error - invalid-password - sign-in`);
+      logger.error(`Error - invalid-password - sign-in`);
       throw new BadRequestException('Wrong password. Please try again.');
     }
   }
@@ -43,7 +43,7 @@ class SignInUserService {
       token,
     };
 
-    Logger.success(`user success sign-in - userId: ${result.id} - execute done`);
+    logger.info(`user success sign-in - userId: ${result.id} - execute done`);
     return result;
   }
 }

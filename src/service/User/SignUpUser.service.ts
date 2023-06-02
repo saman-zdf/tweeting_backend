@@ -4,7 +4,7 @@ import { validateEmail } from '../../lib/common/validateEmail.js';
 import { hashPassword } from '../../lib/common/hashPassword.js';
 import { UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
 import { jwtAccessToken } from '../../lib/jwt.js';
-import { Logger } from '../../lib/common/Logger.js';
+import logger from '../../lib/common/Logger.js';
 
 class SignUpUserService {
   private userRepository: UserRepository;
@@ -18,14 +18,14 @@ class SignUpUserService {
 
     const isEmailValid = validateEmail(email);
     if (!isEmailValid) {
-      Logger.error(`Error - no valid email`);
+      logger.error(`Error - no valid email`);
       throw new BadRequestException('Email is not valid, please provide a valid email.');
     }
 
     const isUserExist = await this.userRepository.getUserByEmail(email);
 
     if (isUserExist) {
-      Logger.error(`Error - email in use`);
+      logger.error(`Error - email in use`);
       throw new BadRequestException(
         `User with email ${isUserExist.email} already in has an account. Please try with different email or simply login again.`,
       );
@@ -53,7 +53,7 @@ class SignUpUserService {
       ...userInfo,
       token,
     };
-    Logger.success(`user success sign-up - userId: ${result.id} - execute done`);
+    logger.info(`user success sign-up - userId: ${result.id} - execute done`);
 
     return result;
   }

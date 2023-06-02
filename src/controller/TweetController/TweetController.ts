@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import CreateTweetService from '../../service/Tweet/CreateTweet.service.js';
 import { StatusCode } from '../../utils/StatusCodes.js';
 import { TweetPayload } from '../../repository/TweetRepository/interface/TweetRepositoryInterface.js';
-import { Logger } from '../../lib/common/Logger.js';
+import logger from '../../lib/common/Logger.js';
 import UpdateTweetService from '../../service/Tweet/UpdateTweet.service.js';
 import GetAllTweetsService from '../../service/Tweet/GetAllTweets.service.js';
 import GetUserLatestTweetService from '../../service/Tweet/GetUserLatestTweet.service.js';
@@ -21,7 +21,7 @@ export const createTweet = async (req: Request, res: Response): Promise<void> =>
 
   const createdTweet = await new CreateTweetService().execute(payload);
   if (createdTweet) {
-    Logger.endpoint('POST', StatusCode.Created, req.originalUrl);
+    logger.info(`POST, status: ${StatusCode.Created}, endpoint: ${req.originalUrl}`);
   }
 
   res.status(StatusCode.Created).json({ tweet: createdTweet });
@@ -42,7 +42,7 @@ export const updateTweet = async (req: Request, res: Response): Promise<void> =>
   };
   const updatedTweet = await new UpdateTweetService().execute(payload);
   if (updatedTweet) {
-    Logger.endpoint('PATCH', StatusCode.OK, req.originalUrl);
+    logger.info(`PATCH, status: ${StatusCode.OK}, endpoint: ${req.originalUrl}`);
   }
   res.status(StatusCode.OK).json({ tweet: updatedTweet });
 };
@@ -52,7 +52,7 @@ export const getAllTweets = async (req: Request, res: Response) => {
   const tweets = await new GetAllTweetsService().execute();
 
   if (tweets.length) {
-    Logger.endpoint('GET', StatusCode.OK, req.originalUrl);
+    logger.info(`GET, status: ${StatusCode.OK}, endpoint: ${req.originalUrl}`);
   }
 
   res.status(StatusCode.OK).json({ tweets });
@@ -67,7 +67,7 @@ export const getUserLatestTweet = async (req: Request, res: Response) => {
   const usersLatestTweet = await new GetUserLatestTweetService().execute(userIdsToNumber);
 
   if (usersLatestTweet?.length) {
-    Logger.endpoint('GET', StatusCode.OK, req.originalUrl);
+    logger.info(`GET, status: ${StatusCode.OK}, endpoint: ${req.originalUrl}`);
   }
 
   res.status(StatusCode.OK).json({ usersLatestTweet });

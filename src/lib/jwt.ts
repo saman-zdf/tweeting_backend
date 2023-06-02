@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { Logger } from './common/Logger.js';
+import logger from './common/Logger.js';
 dotenv.config();
 
 interface SignOptions {
@@ -18,7 +18,7 @@ export const jwtAccessToken = (payload: JwtPayload, options: SignOptions = DEFAU
     const token = jwt.sign(payload, secretKey!, options);
     return token;
   } catch (error) {
-    Logger.error(`Create Token Error: ${error}`);
+    logger.error(`Create Token Error: ${error}`);
     return null;
   }
 };
@@ -32,7 +32,7 @@ export const verifyToken = (token: string) => {
     const decoded = jwt.verify(token, secretKey!);
     return decoded as UpdatedJwtPayload;
   } catch (error) {
-    Logger.error(`Verify Token Error: ${error}`);
+    logger.error(`Verify Token Error: ${error}`);
     return null;
   }
 };

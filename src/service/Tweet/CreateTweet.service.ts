@@ -1,6 +1,6 @@
 import { Tweet } from '@prisma/client';
 import BadRequestException from '../../error/BadRequestException.js';
-import { Logger } from '../../lib/common/Logger.js';
+import logger from '../../lib/common/Logger.js';
 import TweetRepository from '../../repository/TweetRepository/TweetRepository.js';
 import { TweetPayload } from '../../repository/TweetRepository/interface/TweetRepositoryInterface.js';
 import UnauthorizedException from '../../error/UnauthorizedException.js';
@@ -17,12 +17,12 @@ class CreateTweetService {
     const { userId, content } = payload;
 
     if (!userId) {
-      Logger.error('Error, tweet-service - no userId - unauthorized');
+      logger.error('Error, tweet-service - no userId - unauthorized');
       throw new UnauthorizedException('Unauthorized');
     }
 
     if (content.length > MAXIMUM_TWEET_LENGTH) {
-      Logger.error('Error, tweet-service - content exceed 300 chars ');
+      logger.error('Error, tweet-service - content exceed 300 chars ');
       throw new BadRequestException('Tweet content cannot exceed 300 characters.');
     }
   }
@@ -32,7 +32,7 @@ class CreateTweetService {
 
     const createdTweet = await this.tweetRepository.createTweet(payload);
 
-    Logger.success('success - tweet-create - execute done.');
+    logger.info('success - tweet-create - execute done.');
     return createdTweet;
   }
 }

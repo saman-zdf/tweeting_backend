@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, Tweet } from '@prisma/client';
 import prisma from '../../config/db.js';
 import { TweetPayload, TweetRepositoryInterface, TweetUpdatePayload } from './interface/TweetRepositoryInterface.js';
-import { Logger } from '../../lib/common/Logger.js';
+import logger from '../../lib/common/Logger.js';
 
 class TweetRepository implements TweetRepositoryInterface {
   private prisma: PrismaClient;
@@ -12,7 +12,7 @@ class TweetRepository implements TweetRepositoryInterface {
 
   async createTweet(payload: TweetPayload): Promise<Tweet> {
     // TODO: How upload files? S3 || Cloudinary
-    Logger.log('tweet-repository - create-tweet');
+    logger.info('tweet-repository - create-tweet');
     const { userId, content, imageUrl, gifUrl } = payload;
 
     const createdTweeter = await this.prisma.tweet.create({
@@ -28,7 +28,7 @@ class TweetRepository implements TweetRepositoryInterface {
   }
 
   async updateTweet(payload: TweetUpdatePayload, include: Prisma.TweetInclude): Promise<Tweet> {
-    Logger.log('tweet-repository - update-tweet');
+    logger.info('tweet-repository - update-tweet');
     const { tweetId, content, imageUrl, gifUrl } = payload;
     const tweet = await this.prisma.tweet.update({
       where: {
@@ -47,7 +47,7 @@ class TweetRepository implements TweetRepositoryInterface {
   }
 
   async getAllTweets(): Promise<Tweet[]> {
-    Logger.log('tweet-repository - get-all-tweets');
+    logger.info('tweet-repository - get-all-tweets');
     const tweets = await this.prisma.tweet.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -70,7 +70,7 @@ class TweetRepository implements TweetRepositoryInterface {
   }
 
   async getTweetById(tweetId: number, include: Prisma.TweetInclude): Promise<Tweet> {
-    Logger.log('tweet-repository - get-tweet-by-id');
+    logger.info('tweet-repository - get-tweet-by-id');
     const tweet = await this.prisma.tweet.findFirst({
       where: {
         id: tweetId,
@@ -83,7 +83,7 @@ class TweetRepository implements TweetRepositoryInterface {
   }
 
   async getUserTweets(userId: number): Promise<Tweet[]> {
-    Logger.log('tweet-repository - get-users-tweets');
+    logger.info('tweet-repository - get-users-tweets');
     const usersTweets = await this.prisma.tweet.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -109,7 +109,7 @@ class TweetRepository implements TweetRepositoryInterface {
   }
 
   async getUserLatestTweet(userIds: number[]): Promise<Tweet[]> {
-    Logger.log('tweet-repository - get-users-latest-tweet');
+    logger.info('tweet-repository - get-users-latest-tweet');
 
     const userLatestTweets = await this.prisma.tweet.findMany({
       orderBy: {

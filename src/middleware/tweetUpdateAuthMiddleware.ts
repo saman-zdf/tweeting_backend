@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
 import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
-import { Logger } from '../lib/common/Logger.js';
+import logger from '../lib/common/Logger.js';
 import { StatusCode } from '../utils/StatusCodes.js';
 import UnauthenticatedException from '../error/unauthenticatedException.js';
 import prisma from '../config/db.js';
@@ -8,7 +8,7 @@ import NotFoundException from '../error/NotFoundException.js';
 
 export const tweetUpdateAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { tweetId, userId } = await tokenDecoderAndInfoExtractor(req);
+    const { tweetId, userId } = tokenDecoderAndInfoExtractor(req);
     // CRUCIAL:
     // TODO: replace with getTweetById service
     const tweetToUpdate = await prisma.tweet.findFirst({
@@ -22,7 +22,7 @@ export const tweetUpdateAuthMiddleware = async (req: Request, res: Response, nex
     }
 
     if (tweetId && userId !== tweetToUpdate.userId) {
-      Logger.error('Error, user unauthenticated. ');
+      logger.error('Error, user unauthenticated. ');
       throw new UnauthenticatedException('');
     }
 
