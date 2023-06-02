@@ -74,20 +74,20 @@ describe('POST User sign-in', () => {
   });
 
   test('Should return error with no wrong password', async () => {
-    const payload = { email: 'sam@test.testing.com', password: 'testing' };
+    const payload = { email: 'sam@email.testing.com', password: 'secret-testing' };
     const res = await signInUser(payload);
     const data = parseJson(res.text);
     expect(data.msg).toBe('Wrong password. Please try again.');
   });
 
   test('Should successfully sign-in user', async () => {
-    const payload = { email: 'sam@test.testing.com', password: 'secrettest' };
+    const payload = { email: 'sam@email.testing.com', password: 'testing' };
     const {
       body: { user },
     } = await signInUser(payload);
 
     expect(user).toHaveProperty('token');
-    expect(user.email).toBe('sam@test.testing.com');
+    expect(user.email).toBe('sam@email.testing.com');
     expect(user.role).toBe('USER');
     expect(user).not.toHaveProperty('password');
   });

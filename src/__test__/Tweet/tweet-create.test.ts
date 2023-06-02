@@ -8,7 +8,7 @@ describe('POST create tweet', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
   const validFakeToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODMsInVzZXJuYW1lIjpudWxsLCJlbWFpbCI6InNhbUB0ZXN0LnRlc3RpbmcuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkTnptLm90T1hZUWZWbWY0bTlIdnFxLkd3cmhBZ1p3TWFGbnJRelE0eS5hY0VBMjloVExVNEMiLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjMtMDYtMDJUMDg6MDU6MzQuMzU2WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDJUMDg6MDU6MzQuMzU2WiIsImlhdCI6MTY4NTY5NjAxNiwiZXhwIjoxNzcyMDk2MDE2fQ.h0-JgZ-iqosIafqFY3E61k-9i4tKTnvpCHgCiA_qbvY';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUyLCJ1c2VybmFtZSI6bnVsbCwiZW1haWwiOiJzYW1AZW1haWwudGVzdGluZy5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRQYlRSSWFzeWZjek5UL0p3SzhKQU9lV2V0MUhQd2xQMHVUcWNDT3BRY0JjcGtXRk1Hc3pqLiIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQxNjo0MDozNC43MjJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQxNjo0MDozNC43MjJaIiwiaWF0IjoxNjg1NzI0MDM0LCJleHAiOjE2ODU4MTA0MzR9.Za2M5uemdIyLNc5sPSwniKrz6VENYqbYAm1mGaz0kAg';
 
   beforeAll(() => {
     prismaDB = prisma;
@@ -85,7 +85,7 @@ describe('POST create tweet', () => {
     const { tweet } = parseJson(res.text);
 
     expect(tweet.content).toEqual('This is a test tweets and we adding this suffix for tests, .@-test-tweet');
-    expect(tweet.userId).toEqual(83);
+    expect(tweet.userId).toEqual(152);
     expect(tweet).toHaveProperty('id');
   });
 });
