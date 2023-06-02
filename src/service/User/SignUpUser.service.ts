@@ -47,8 +47,10 @@ class SignUpUserService {
     const data = await this.formatPayload(user);
     const createdUser = await this.userRepository.signUp(data);
     const token = jwtAccessToken(createdUser!);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userInfo } = createdUser;
     const result = {
-      ...createdUser,
+      ...userInfo,
       token,
     };
     Logger.success(`user success sign-up - userId: ${result.id} - execute done`);

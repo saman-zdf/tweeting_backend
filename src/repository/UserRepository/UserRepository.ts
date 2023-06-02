@@ -10,7 +10,7 @@ class UserRepository implements IUserRepository {
     this.prisma = prisma;
   }
 
-  async signUp(payload: UserPayload): Promise<Omit<User, 'password'>> {
+  async signUp(payload: UserPayload): Promise<User> {
     Logger.log('user-repository - sing-up - create-user');
     const user = await this.prisma.user.create({
       data: {
@@ -23,7 +23,7 @@ class UserRepository implements IUserRepository {
     return user;
   }
 
-  async signIn(payload: SignInPayload): Promise<Omit<User, 'password'>> {
+  async signIn(payload: SignInPayload): Promise<User> {
     Logger.log('user-repository - sign-in');
     const user = await this.getUserByEmail(payload.email);
     return user!;
