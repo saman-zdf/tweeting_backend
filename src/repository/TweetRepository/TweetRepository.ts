@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient, Tweet } from '@prisma/client';
-import prisma from '../../config/db.js';
+import prisma from '../../lib/prisma.js';
 import { TweetPayload, TweetRepositoryInterface, TweetUpdatePayload } from './interface/TweetRepositoryInterface.js';
 import logger from '../../lib/common/Logger.js';
 

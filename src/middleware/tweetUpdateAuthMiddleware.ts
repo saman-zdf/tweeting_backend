@@ -3,7 +3,7 @@ import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
 import logger from '../lib/common/Logger.js';
 import { StatusCode } from '../utils/StatusCodes.js';
 import UnauthenticatedException from '../error/unauthenticatedException.js';
-import prisma from '../config/db.js';
+import prisma from '../lib/prisma.js';
 import NotFoundException from '../error/NotFoundException.js';
 
 export const tweetUpdateAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {

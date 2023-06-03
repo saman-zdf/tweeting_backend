@@ -1,4 +1,4 @@
-import prisma from '../src/config/db';
+import prisma from '../src/lib/prisma';
 async function main() {
   await prisma.user.create({
     data: {

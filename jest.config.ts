@@ -10,5 +10,4 @@ export default {
   coverageDirectory: 'coverage',
   resetMocks: true,
   clearMocks: true,
-  setupFilesAfterEnv: ['./mock.ts'],
 };
