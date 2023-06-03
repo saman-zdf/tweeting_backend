@@ -8,6 +8,10 @@ describe('POST User sign-in', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
 
+  const signUpUser = async (payload: object) => {
+    return await request.post('/user/sign-up').send(payload);
+  };
+
   const signInUser = async (payload: object) => {
     return await request.post('/user/sign-in').send(payload);
   };
@@ -77,22 +81,23 @@ describe('POST User sign-in', () => {
   TODO: These tests are failing because I'm using the same db as my development |  production. I need to find a way to create a separate test DB
   */
 
-  // test('Should return error with no wrong password', async () => {
-  //   const payload = { email: 'sam@email.testing.com', password: 'secret-testing' };
-  //   const res = await signInUser(payload);
-  //   const data = parseJson(res.text);
-  //   expect(data.msg).toBe('Wrong password. Please try again.');
-  // });
+  test('Should return error with no wrong password', async () => {
+    const payload = { email: 'sam@test.testing.prisma.com', password: 'secret-testing' };
+    const res = await signInUser(payload);
+    const data = parseJson(res.text);
+    expect(data.msg).toBe('Wrong password. Please try again.');
+  });
 
-  // test('Should successfully sign-in user', async () => {
-  //   const payload = { email: 'sam@email.testing.com', password: 'testing' };
-  //   const {
-  //     body: { user },
-  //   } = await signInUser(payload);
+  test('Should successfully sign-in user', async () => {
+    const payload = { email: 'sam@test.testing.prisma.com', password: 'testing' };
+    await signUpUser(payload);
+    const {
+      body: { user },
+    } = await signInUser(payload);
 
-  //   expect(user).toHaveProperty('token');
-  //   expect(user.email).toBe('sam@email.testing.com');
-  //   expect(user.role).toBe('USER');
-  //   expect(user).not.toHaveProperty('password');
-  // });
+    expect(user).toHaveProperty('token');
+    expect(user.email).toBe('sam@test.testing.prisma.com');
+    expect(user.role).toBe('USER');
+    expect(user).not.toHaveProperty('password');
+  });
 });
