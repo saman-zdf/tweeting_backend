@@ -8,7 +8,7 @@ describe('POST create tweet', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
   const validFakeToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUyLCJ1c2VybmFtZSI6bnVsbCwiZW1haWwiOiJzYW1AZW1haWwudGVzdGluZy5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRQYlRSSWFzeWZjek5UL0p3SzhKQU9lV2V0MUhQd2xQMHVUcWNDT3BRY0JjcGtXRk1Hc3pqLiIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wMlQxNjo0MDozNC43MjJaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wMlQxNjo0MDozNC43MjJaIiwiaWF0IjoxNjg1NzI0MDM0LCJleHAiOjE2ODU4MTA0MzR9.Za2M5uemdIyLNc5sPSwniKrz6VENYqbYAm1mGaz0kAg';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjY5LCJ1c2VybmFtZSI6bnVsbCwiZW1haWwiOiJtYXlAdGVzdC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRjamhLWXoya0FRVG5XNEkzcEY1cDRldVFCS2RWNHhJdXFJcVNPbEZtZ0N3bndEeEJaUy92UyIsInJvbGUiOiJVU0VSIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wM1QxNDoxNjowNC45ODNaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0wM1QxNDoxNjowNC45ODNaIiwiaWF0IjoxNjg1ODAxNzY0LCJleHAiOjE3NzIyMDE3NjR9.pLGa30dcvNqtY48dqcqEqaxpdbuQJmjfwNCQyHK8zfE';
 
   beforeAll(() => {
     prismaDB = prisma;
@@ -19,7 +19,7 @@ describe('POST create tweet', () => {
   };
 
   afterEach(async () => {
-    await prisma.tweet.deleteMany({
+    await prismaDB.tweet.deleteMany({
       where: {
         content: {
           contains: '.@-test-tweet',
@@ -79,13 +79,13 @@ describe('POST create tweet', () => {
       },
     ]);
   });
-  // test('Create successful tweet', async () => {
-  //   const payload = { content: 'This is a test tweets and we adding this suffix for tests, .@-test-tweet' };
-  //   const res = await createTweet(payload);
-  //   const { tweet } = parseJson(res.text);
+  test('Create successful tweet', async () => {
+    const payload = { content: 'This is a test tweets and we adding this suffix for tests, .@-test-tweet' };
+    const res = await createTweet(payload);
+    const { tweet } = parseJson(res.text);
 
-  //   expect(tweet.content).toEqual('This is a test tweets and we adding this suffix for tests, .@-test-tweet');
-  //   expect(tweet.userId).toEqual(152);
-  //   expect(tweet).toHaveProperty('id');
-  // });
+    expect(tweet.content).toEqual('This is a test tweets and we adding this suffix for tests, .@-test-tweet');
+    expect(tweet.userId).toEqual(269);
+    expect(tweet).toHaveProperty('id');
+  });
 });
