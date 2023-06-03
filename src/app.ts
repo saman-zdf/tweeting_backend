@@ -16,6 +16,7 @@ app.get('/', (req: Request, res: Response) => {
   logger.error('Error, error');
   logger.warn('Error, error');
   logger.info('logger');
+
   res.status(200).json({ message: 'Hello Tweet' });
 });
 

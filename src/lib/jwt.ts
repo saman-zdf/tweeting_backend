@@ -25,6 +25,7 @@ export const jwtAccessToken = (payload: JwtPayload, options: SignOptions = DEFAU
 
 interface UpdatedJwtPayload extends JwtPayload {
   id: number;
+  email: string;
 }
 
 export const verifyToken = (token: string) => {
