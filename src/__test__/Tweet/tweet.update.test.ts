@@ -4,7 +4,7 @@ import supertest, { SuperTest, Test } from 'supertest';
 import { app } from '../../app';
 import { parseJson } from '../../lib/errorHelpers';
 
-describe('PaTCH update tweet', () => {
+describe('PATCH update tweet', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
   const validFakeToken =
@@ -51,7 +51,7 @@ describe('PaTCH update tweet', () => {
   });
 
   test('Update tweet without payload should return Zod error for missing payload', async () => {
-    const payload = { content: 'This is a test tweet that needs to be updated.' };
+    const payload = { content: 'This is a test tweet that needs to be updated.@-test-tweet' };
     const tweet = await createTweet(payload);
     const res = await updateTweet({}, tweet.body.tweet.id, validFakeToken);
 
@@ -67,10 +67,10 @@ describe('PaTCH update tweet', () => {
   });
 
   test('Update tweet with unauthenticated token, to return forbidden with 403 error.', async () => {
-    const payload = { content: 'This is a test tweet that needs to be updated.' };
+    const payload = { content: 'This is a test tweet that needs to be updated.@-test-tweet' };
     const tweet = await createTweet(payload);
     const res = await updateTweet(
-      { content: 'This is has been updated now.' },
+      { content: 'This is has been updated now.@-test-tweet' },
       tweet.body.tweet.id,
       unauthenticatedTokenFoUpdate,
     );
@@ -81,19 +81,28 @@ describe('PaTCH update tweet', () => {
   });
 
   test('Update tweet with incorrect tweet id, to return not found error', async () => {
-    const res = await updateTweet({ content: 'This is has been updated now.' }, 12, unauthenticatedTokenFoUpdate);
+    const res = await updateTweet(
+      { content: 'This is has been updated now.@-test-tweet' },
+      12,
+      unauthenticatedTokenFoUpdate,
+    );
     const { error } = parseJson(res.text);
     expect(res.status).toBe(404);
     expect(error).toBe('Tweet with tweetId 12 not found.');
   });
 
   test('Update tweet successfully', async () => {
-    const payload = { content: 'This is a test tweet that needs to be updated.' };
+    const payload = { content: 'This is a test tweet that needs to be updated.@-test-tweet' };
     const tweet = await createTweet(payload);
-    const res = await updateTweet({ content: 'This is has been updated now.' }, tweet.body.tweet.id, validFakeToken);
+    const res = await updateTweet(
+      { content: 'This is has been updated now.@-test-tweet' },
+      tweet.body.tweet.id,
+      validFakeToken,
+    );
+
     const data = parseJson(res.text);
 
     expect(res.status).toBe(200);
-    expect(data.tweet.content).toBe('This is has been updated now.');
+    expect(data.tweet.content).toBe('This is has been updated now.@-test-tweet');
   });
 });

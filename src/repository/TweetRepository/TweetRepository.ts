@@ -57,6 +57,9 @@ class TweetRepository implements TweetRepositoryInterface {
           orderBy: {
             createdAt: 'desc',
           },
+          where: {
+            deletedAt: false,
+          },
         },
         comments: {
           orderBy: {
@@ -69,7 +72,7 @@ class TweetRepository implements TweetRepositoryInterface {
     return tweets;
   }
 
-  async getTweetById(tweetId: number, include: Prisma.TweetInclude): Promise<Tweet> {
+  async getTweetById(tweetId: number, include?: Prisma.TweetInclude): Promise<Tweet> {
     logger.info('tweet-repository - get-tweet-by-id');
     const tweet = await this.prisma.tweet.findFirst({
       where: {

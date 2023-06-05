@@ -3,7 +3,7 @@ import prisma from '../../lib/prisma';
 import supertest, { SuperTest, Test } from 'supertest';
 import { app } from '../../app';
 
-describe('PaTCH update tweet', () => {
+describe('GET return all tweets', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
   const tweets = [
@@ -29,10 +29,6 @@ describe('PaTCH update tweet', () => {
     tweets.forEach(async (tweet) => {
       await request.post('/tweet').send(tweet);
     });
-  });
-
-  afterEach(async () => {
-    await prismaDB.tweet.deleteMany({});
   });
 
   afterAll(async () => {

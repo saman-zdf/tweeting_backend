@@ -65,11 +65,12 @@ model Follow {
 
 model Like {
   id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId    Int      @map(name: "user_id")
-  tweet     Tweet    @relation(fields: [tweetId], references: [id])
+  tweet     Tweet    @relation(fields: [tweetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tweetId   Int      @map(name: "tweet_id")
   createdAt DateTime @default(now()) @map("created_at")
+  deletedAt Boolean  @default(false)
 
   @@unique([userId, tweetId])
   @@index([id, tweetId, userId])
