@@ -1,15 +1,17 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
 import supertest, { SuperTest, Test } from 'supertest';
 
 import { app } from '../../app';
 import { parseJson } from '../../lib/errorHelpers';
 import prisma from '../../lib/prisma';
 
+dotenv.config();
+
 describe('PATCH update tweet', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
-  const validFakeToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOm51bGwsImVtYWlsIjoic2FtQHRlc3QudGVzdGluZy5wcmlzbWEuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkd3VZN1RTam9sNW03bWkwbk8uU2lNdUhwZ1ZNOEk4NVpOV2N2eVl0SzlwUElVOEt4UUgwemUiLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjMtMDYtMDdUMTA6NDA6NTcuMDI0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDdUMTA6NDA6NTcuMDI0WiIsImlhdCI6MTY4NjEzNDcyMCwiZXhwIjoxNzcyNTM0NzIwfQ.lmOIpR4bWhR9NniqZLrw4kZcLO0axEgjXBCHvgzZY5s';
+  const validFakeToken = process.env.USER_TOKEN;
   const unauthenticatedTokenFoUpdate =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcwLCJ1c2VybmFtZSI6bnVsbCwiZW1haWwiOiJuaW5hQHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkRUNzcDB4ZHlKaDRLLndCNDZhVUhndXl1Z0ZGWC5kZHVjdnV5TG13Vk8zWFBZQjY1MVNJalciLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjMtMDYtMDNUMTQ6MTY6MjUuNzI2WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDNUMTQ6MTY6MjUuNzI2WiIsImlhdCI6MTY4NTgwMTc4NSwiZXhwIjoxNzcyMjAxNzg1fQ.A7r_RYqnnXhblJQRvXb1Q3EdcqiEgATk7RansB08uYM';
 
@@ -55,7 +57,7 @@ describe('PATCH update tweet', () => {
     const payload = { content: 'This is a test tweet that needs to be updated.@-test-tweet' };
     const tweet = await createTweet(payload);
 
-    const res = await updateTweet({}, tweet.body.tweet.id, validFakeToken);
+    const res = await updateTweet({}, tweet.body.tweet.id, validFakeToken!);
 
     expect(res.body.issues).toEqual([
       {
@@ -99,7 +101,7 @@ describe('PATCH update tweet', () => {
     const res = await updateTweet(
       { content: 'This is has been updated now.@-test-tweet' },
       tweet.body.tweet.id,
-      validFakeToken,
+      validFakeToken!,
     );
 
     const data = parseJson(res.text);

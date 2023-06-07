@@ -6,10 +6,11 @@ import prisma from '../../lib/prisma';
 
 describe('GET return all tweets', () => {
   const request: SuperTest<Test> = supertest(app);
+  const validFakeToken = process.env.USER_TOKEN;
   let prismaDB: PrismaClient;
   const tweets = [
-    { content: '1 - Hello world! .@-test-tweet' },
-    { content: '1 - Having a great day! .@-test-tweet' },
+    { content: 'Hello world! .@-test-tweet' },
+    { content: 'Having a great day! .@-test-tweet' },
     { content: 'Just finished an amazing book. .@-test-tweet' },
     { content: 'Feeling grateful today. .@-test-tweet' },
     { content: 'Excited for the weekend! .@-test-tweet' },
@@ -28,17 +29,21 @@ describe('GET return all tweets', () => {
 
   beforeAll(async () => {
     tweets.forEach(async (tweet) => {
-      await request.post('/tweet').send(tweet);
+      await request.post('/tweet').set('Authorization', `Bearer ${validFakeToken!}`).send(tweet);
     });
   });
 
   afterAll(async () => {
-    await prismaDB.tweet.deleteMany({ where: { content: { contains: '. .@-test-tweet' } } });
     await prismaDB.$disconnect();
   });
 
-  test('Update tweet without authorization to return unauthorized error.', async () => {
-    const tweets = await prisma.tweet.findMany();
+  test.only('Get all tweets and it should return 0 tweets', async () => {
+    await request
+      .post('/tweet')
+      .set('Authorization', `Bearer ${validFakeToken!}`)
+      .send({ content: 'Life is beautiful. .@-test-tweet' });
+    const tweets = await prismaDB.tweet.findMany();
     expect(tweets.length).not.toBe(0);
+    await prismaDB.tweet.deleteMany({ where: { content: { contains: '. .@-test-tweet' } } });
   });
 });

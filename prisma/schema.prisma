@@ -24,6 +24,7 @@ model User {
   followers  Follow[]  @relation("UserFollowers")
   comments   Comment[]
   Reply      Reply[]
+  Follow     Follow[]
 
   @@index([id])
   @@map(name: "users")
@@ -52,10 +53,12 @@ model Tweet {
 
 model Follow {
   id              Int      @id @default(autoincrement())
-  follower        User?    @relation("UserFollowing", fields: [followerUserId], references: [id])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId          Int      @map(name: "user_id")
+  follower        User?    @relation("UserFollowing", fields: [followerUserId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   unFollow        Boolean? @default(false)
   followerUserId  Int?     @map(name: "follower_user_id")
-  following       User?    @relation("UserFollowers", fields: [followingUserId], references: [id])
+  following       User?    @relation("UserFollowers", fields: [followingUserId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   followingUserId Int?     @map(name: "following_user_id")
   createdAt       DateTime @default(now()) @map("created_at")
 
