@@ -1,7 +1,8 @@
 import { Prisma, PrismaClient, Tweet } from '@prisma/client';
+
+import logger from '../../lib/common/Logger.js';
 import prisma from '../../lib/prisma.js';
 import { TweetPayload, TweetRepositoryInterface, TweetUpdatePayload } from './interface/TweetRepositoryInterface.js';
-import logger from '../../lib/common/Logger.js';
 
 class TweetRepository implements TweetRepositoryInterface {
   private prisma: PrismaClient;
@@ -60,8 +61,14 @@ class TweetRepository implements TweetRepositoryInterface {
           where: {
             deletedAt: false,
           },
+          include: {
+            comment: true,
+          },
         },
         comments: {
+          include: {
+            Like: true,
+          },
           orderBy: {
             createdAt: 'desc',
           },

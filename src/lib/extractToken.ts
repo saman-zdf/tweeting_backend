@@ -1,4 +1,5 @@
 import { Request } from 'express';
+
 import { verifyToken } from './jwt.js';
 
 export const extractToken = (req: Request): string | null => {

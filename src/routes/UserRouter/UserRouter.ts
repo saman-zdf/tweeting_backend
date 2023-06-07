@@ -1,4 +1,5 @@
 import express from 'express';
+
 import { signIn, signUp } from '../../controller/UserController/UserController.js';
 import { tryCatch } from '../../utils/tryCatch.js';
 import { userAuthPayloadValidation, userSignInSchema, userSignUpSchema } from '../../validation/User/validation.js';

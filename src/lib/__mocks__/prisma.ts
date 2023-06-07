@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
+import { DeepMockProxy, mockDeep, mockReset } from 'jest-mock-extended';
+
 import prisma from '../prisma';
 
 // I might need to use vitest as it is a lot easier to set up and also there is good docs in prisma.io for setting up the test environment with Docker

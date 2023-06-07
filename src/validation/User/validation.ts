@@ -1,8 +1,9 @@
+import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject, z } from 'zod';
-import { Response, Request, NextFunction } from 'express';
+
+import logger from '../../lib/common/Logger.js';
 import { UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
 import { StatusCode } from '../../utils/StatusCodes.js';
-import logger from '../../lib/common/Logger.js';
 
 /* User authentication validation */
 export const userSignUpSchema = z.object({

@@ -1,9 +1,11 @@
-import express, { Request, Response, json } from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import router from './routes/index.js';
-import errorHandlerMiddleware from './middleware/errorHandler.js';
+import dotenv from 'dotenv';
+import express, { Request, Response, json } from 'express';
+
 import logger from './lib/common/Logger.js';
+import errorHandlerMiddleware from './middleware/errorHandler.js';
+import router from './routes/index.js';
+
 dotenv.config();
 
 export const app = express();

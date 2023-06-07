@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import { tryCatch } from '../../utils/tryCatch';
-import { addLike } from '../../controller/LikeController/LikeController';
+
+import { likeComment, likeTweet } from '../../controller/LikeController/LikeController';
 import { authMiddleware } from '../../middleware/authorizationMiddleware';
+import { tryCatch } from '../../utils/tryCatch';
 
 const likeRouter = Router();
 
-likeRouter.patch('/', [authMiddleware], tryCatch(addLike));
+likeRouter.patch('/like-tweet', [authMiddleware], tryCatch(likeTweet));
+likeRouter.patch('/like-comment', [authMiddleware], tryCatch(likeComment));
 
 export default likeRouter;

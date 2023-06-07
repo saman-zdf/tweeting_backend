@@ -1,6 +1,8 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
 import logger from './common/Logger.js';
+
 dotenv.config();
 
 interface SignOptions {

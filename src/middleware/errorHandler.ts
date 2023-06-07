@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { StatusCode } from '../utils/StatusCodes.js';
+
 import BadRequestException from '../error/BadRequestException.js';
 import NotFoundException from '../error/NotFoundException.js';
-import UnauthenticatedException from '../error/unauthenticatedException.js';
 import UnauthorizedException from '../error/UnauthorizedException.js';
+import UnauthenticatedException from '../error/unauthenticatedException.js';
+import { StatusCode } from '../utils/StatusCodes.js';
 
 interface ErrorHandler extends Error {
   code: number;

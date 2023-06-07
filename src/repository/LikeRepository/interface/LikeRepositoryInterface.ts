@@ -1,11 +1,17 @@
 import { Like } from '@prisma/client';
 
-export interface LikePayload {
+export interface LikeTweetPayload {
   userId: number;
   tweetId: number;
 }
 
+export interface LikeCommentPayload extends Omit<LikeTweetPayload, 'tweetId'> {
+  commentId: number;
+}
+
 export interface LikeRepositoryInterface {
-  addLike(payload: LikePayload): Promise<Like | null>;
-  getTweetLikeByUser(payload: LikePayload): Promise<Like | null>;
+  likeTweet(payload: LikeTweetPayload): Promise<Like | null>;
+  likeComment(payload: LikeCommentPayload): Promise<Like | null>;
+  getTweetLikeByUser(payload: LikeTweetPayload): Promise<Like | null>;
+  getCommentLikeByUser(payload: LikeCommentPayload): Promise<Like | null>;
 }

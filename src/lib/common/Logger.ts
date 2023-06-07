@@ -1,3 +1,5 @@
+import { createLogger, format, transports } from 'winston';
+
 /* eslint-disable no-console */
 const COLORS = {
   red: '\u001b[31m',
@@ -6,8 +8,6 @@ const COLORS = {
   yellow: '\u001b[33m',
   reset: '\u001b[0m',
 };
-
-import { createLogger, format, transports } from 'winston';
 
 const { combine, timestamp, json, errors, printf } = format;
 
