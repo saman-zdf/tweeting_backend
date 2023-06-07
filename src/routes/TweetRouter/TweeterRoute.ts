@@ -1,14 +1,15 @@
+import { Router } from 'express';
+
 import {
   createTweet,
   getAllTweets,
   getUserLatestTweet,
   updateTweet,
 } from '../../controller/TweetController/TweetController.js';
-import { tryCatch } from '../../utils/tryCatch.js';
-import { Router } from 'express';
-import { tweetCreateSchema, tweetUpdateSchema, twitterPayloadValidation } from '../../validation/Tweet/validation.js';
-import { tweetUpdateAuthMiddleware } from '../../middleware/tweetUpdateAuthMiddleware.js';
 import { authMiddleware } from '../../middleware/authorizationMiddleware.js';
+import { tweetUpdateAuthMiddleware } from '../../middleware/tweetUpdateAuthMiddleware.js';
+import { tryCatch } from '../../utils/tryCatch.js';
+import { tweetCreateSchema, tweetUpdateSchema, twitterPayloadValidation } from '../../validation/Tweet/validation.js';
 
 const tweeterRouter = Router();
 

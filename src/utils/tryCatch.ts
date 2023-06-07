@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
 
+import logger from '../lib/common/Logger';
+
 export const tryCatch =
   (controller: {
     (
@@ -35,6 +37,7 @@ export const tryCatch =
     try {
       await controller(req, res);
     } catch (error) {
+      logger.error('Error =>', error);
       return next(error);
     }
   };

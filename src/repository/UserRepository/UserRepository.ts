@@ -1,7 +1,8 @@
 import { PrismaClient, User } from '@prisma/client';
-import { IUserRepository, SignInPayload, UserPayload } from './Interfaces/UserRepositoryInterface.js';
+
 import logger from '../../lib/common/Logger.js';
 import prisma from '../../lib/prisma.js';
+import { IUserRepository, SignInPayload, UserPayload } from './Interfaces/UserRepositoryInterface.js';
 
 class UserRepository implements IUserRepository {
   private prisma: PrismaClient;

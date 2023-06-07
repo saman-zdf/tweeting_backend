@@ -1,8 +1,9 @@
-import { Response, NextFunction, Request } from 'express';
-import { verifyToken } from '../lib/jwt.js';
+import { NextFunction, Request, Response } from 'express';
+
 import UnauthorizedException from '../error/UnauthorizedException.js';
-import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
 import logger from '../lib/common/Logger.js';
+import { tokenDecoderAndInfoExtractor } from '../lib/extractToken.js';
+import { verifyToken } from '../lib/jwt.js';
 import { StatusCode } from '../utils/StatusCodes.js';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

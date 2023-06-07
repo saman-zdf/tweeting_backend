@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 declare namespace Express {
   interface Request {
     user?: {
-      userId?: number | string;
+      userId?: string | number | undefined;
     };
     query?: {
       userIds?: string | undefined;

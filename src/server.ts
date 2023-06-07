@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
+
 import { app } from './app.js';
 import logger from './lib/common/Logger.js';
+
 dotenv.config();
 
 const PORT = Number(process.env.PORT) || 8888;

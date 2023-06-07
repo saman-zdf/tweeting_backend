@@ -1,5 +1,6 @@
-import CustomAPIError from './CustomAPIError.js';
 import { StatusCode } from '../utils/StatusCodes.js';
+import CustomAPIError from './CustomAPIError.js';
+
 class UnauthenticatedException extends CustomAPIError {
   message!: string;
   code: number;

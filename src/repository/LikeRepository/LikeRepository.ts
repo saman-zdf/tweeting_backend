@@ -1,7 +1,8 @@
 import { Like, PrismaClient } from '@prisma/client';
-import prisma from '../../lib/prisma';
-import { LikePayload, LikeRepositoryInterface } from './interface/LikeRepositoryInterface';
+
 import logger from '../../lib/common/Logger';
+import prisma from '../../lib/prisma';
+import { LikeCommentPayload, LikeRepositoryInterface, LikeTweetPayload } from './interface/LikeRepositoryInterface';
 
 class LikeRepository implements LikeRepositoryInterface {
   private prisma: PrismaClient;
@@ -10,8 +11,8 @@ class LikeRepository implements LikeRepositoryInterface {
     this.prisma = prisma;
   }
 
-  async addLike(payload: LikePayload): Promise<Like | null> {
-    logger.info('like-repository - add-like');
+  async likeTweet(payload: LikeTweetPayload): Promise<Like | null> {
+    logger.info('like-repository - like-tweet');
     const { tweetId, userId } = payload;
     const isTweetLiked = await this.getTweetLikeByUser(payload);
 
@@ -28,17 +29,45 @@ class LikeRepository implements LikeRepositoryInterface {
       return isTweetLiked;
     }
 
-    const liked = await this.prisma.like.create({
+    const tweetLiked = await this.prisma.like.create({
       data: {
         tweetId,
         userId,
       },
     });
 
-    return liked!;
+    return tweetLiked;
   }
 
-  async getTweetLikeByUser(payload: LikePayload): Promise<Like | null> {
+  async likeComment(payload: LikeCommentPayload): Promise<Like | null> {
+    logger.info('like-repository - like-comment');
+    const { commentId, userId } = payload;
+    const isCommentLiked = await this.getCommentLikeByUser(payload);
+
+    if (isCommentLiked) {
+      await this.prisma.like.update({
+        where: {
+          id: isCommentLiked.id,
+        },
+        data: {
+          deletedAt: !isCommentLiked.deletedAt,
+        },
+      });
+
+      return isCommentLiked;
+    }
+
+    const commentLiked = await this.prisma.like.create({
+      data: {
+        userId,
+        commentId,
+      },
+    });
+
+    return commentLiked;
+  }
+
+  async getTweetLikeByUser(payload: LikeTweetPayload): Promise<Like | null> {
     const { tweetId, userId } = payload;
     const tweetLikedByUser = await this.prisma.like.findFirst({
       where: {
@@ -48,6 +77,18 @@ class LikeRepository implements LikeRepositoryInterface {
     });
 
     return tweetLikedByUser;
+  }
+
+  async getCommentLikeByUser(payload: LikeCommentPayload): Promise<Like | null> {
+    const { commentId, userId } = payload;
+    const commentLikedByUser = await this.prisma.like.findFirst({
+      where: {
+        userId,
+        commentId,
+      },
+    });
+
+    return commentLikedByUser;
   }
 }
 

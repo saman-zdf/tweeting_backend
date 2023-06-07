@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import prisma from '../../lib/prisma';
 import supertest, { SuperTest, Test } from 'supertest';
+
 import { app } from '../../app';
+import prisma from '../../lib/prisma';
 
 describe('GET return all tweets', () => {
   const request: SuperTest<Test> = supertest(app);

@@ -1,4 +1,5 @@
 import supertest, { SuperTest, Test } from 'supertest';
+
 import { app } from '../app';
 
 describe('Test app', () => {

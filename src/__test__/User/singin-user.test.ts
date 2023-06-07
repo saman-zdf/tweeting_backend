@@ -1,8 +1,9 @@
-import { app } from '../../app';
+import { PrismaClient } from '@prisma/client';
 import supertest, { SuperTest, Test } from 'supertest';
+
+import { app } from '../../app';
 import { parseJson } from '../../lib/errorHelpers';
 import prisma from '../../lib/prisma';
-import { PrismaClient } from '@prisma/client';
 
 describe('POST User sign-in', () => {
   const request: SuperTest<Test> = supertest(app);

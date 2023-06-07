@@ -1,6 +1,6 @@
-import TweetRepository from '../../repository/TweetRepository/TweetRepository.js';
-import logger from '../../lib/common/Logger.js';
 import BadRequestException from '../../error/BadRequestException.js';
+import logger from '../../lib/common/Logger.js';
+import TweetRepository from '../../repository/TweetRepository/TweetRepository.js';
 
 class GetUserLatestTweetService {
   private tweetRepository: TweetRepository;

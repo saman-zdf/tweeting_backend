@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { SignInPayload, UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
-import { StatusCode } from '../../utils/StatusCodes.js';
-import SignUpUserService from '../../service/User/SignUpUser.service.js';
+
 import logger from '../../lib/common/Logger.js';
+import { SignInPayload, UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
 import SignInUserService from '../../service/User/SignInUser.service.js';
+import SignUpUserService from '../../service/User/SignUpUser.service.js';
+import { StatusCode } from '../../utils/StatusCodes.js';
 
 export const signUp = async (req: Request, res: Response) => {
   const payload: UserPayload = req.body;

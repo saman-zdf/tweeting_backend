@@ -1,10 +1,10 @@
 import BadRequestException from '../../error/BadRequestException.js';
-import UserRepository from '../../repository/UserRepository/UserRepository.js';
-import { validateEmail } from '../../lib/common/validateEmail.js';
-import { hashPassword } from '../../lib/common/hashPassword.js';
-import { UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
-import { jwtAccessToken } from '../../lib/jwt.js';
 import logger from '../../lib/common/Logger.js';
+import { hashPassword } from '../../lib/common/hashPassword.js';
+import { validateEmail } from '../../lib/common/validateEmail.js';
+import { jwtAccessToken } from '../../lib/jwt.js';
+import { UserPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
+import UserRepository from '../../repository/UserRepository/UserRepository.js';
 
 class SignUpUserService {
   private userRepository: UserRepository;

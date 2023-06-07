@@ -1,9 +1,9 @@
 import BadRequestException from '../../error/BadRequestException.js';
-import UserRepository from '../../repository/UserRepository/UserRepository.js';
-import { comparePassword } from '../../lib/common/comparePassword.js';
 import logger from '../../lib/common/Logger.js';
-import { SignInPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
+import { comparePassword } from '../../lib/common/comparePassword.js';
 import { jwtAccessToken } from '../../lib/jwt.js';
+import { SignInPayload } from '../../repository/UserRepository/Interfaces/UserRepositoryInterface.js';
+import UserRepository from '../../repository/UserRepository/UserRepository.js';
 
 class SignInUserService {
   private userRepository: UserRepository;
