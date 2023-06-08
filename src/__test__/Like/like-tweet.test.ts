@@ -1,15 +1,17 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
 import supertest, { SuperTest, Test } from 'supertest';
 
 import { app } from '../../app';
 import { parseJson } from '../../lib/errorHelpers';
 import prisma from '../../lib/prisma';
 
+dotenv.config();
+
 describe('PATCH like tweet', () => {
   const request: SuperTest<Test> = supertest(app);
   let prismaDB: PrismaClient;
-  const validFakeToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOm51bGwsImVtYWlsIjoic2FtQHRlc3QudGVzdGluZy5wcmlzbWEuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkd3VZN1RTam9sNW03bWkwbk8uU2lNdUhwZ1ZNOEk4NVpOV2N2eVl0SzlwUElVOEt4UUgwemUiLCJyb2xlIjoiVVNFUiIsImNyZWF0ZWRBdCI6IjIwMjMtMDYtMDdUMTA6NDA6NTcuMDI0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDdUMTA6NDA6NTcuMDI0WiIsImlhdCI6MTY4NjEzNDcyMCwiZXhwIjoxNzcyNTM0NzIwfQ.lmOIpR4bWhR9NniqZLrw4kZcLO0axEgjXBCHvgzZY5s';
+  const validFakeToken = process.env.USER_TOKEN;
 
   beforeAll(() => {
     prismaDB = prisma;

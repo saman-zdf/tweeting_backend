@@ -19,13 +19,13 @@ describe('User API - [POST] /user/sign-up', () => {
   });
 
   afterEach(async () => {
-    await prismaDB.user.deleteMany({
-      where: {
-        email: {
-          contains: '.test.com',
-        },
-      },
-    });
+    // await prismaDB.user.deleteMany({
+    //   where: {
+    //     email: {
+    //       contains: '.test.com',
+    //     },
+    //   },
+    // });
   });
 
   afterAll(async () => {

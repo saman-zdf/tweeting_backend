@@ -1,6 +1,15 @@
 import { jwtAccessToken, verifyToken } from '../../lib/jwt';
 
 describe('Access Token & Verify Token', () => {
+  test('Should return error and have no id and email', () => {
+    const payload = {};
+    const token = jwtAccessToken(payload);
+    const decoded = verifyToken(token!);
+    expect(token).not.toBeNull();
+    expect(decoded).not.toHaveProperty('id');
+    expect(decoded).not.toHaveProperty('email');
+  });
+
   test('Should create an access token from payload', () => {
     const payload = {
       id: 1,
