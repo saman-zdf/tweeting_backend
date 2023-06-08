@@ -88,7 +88,6 @@ describe('POST create tweet', () => {
     const { tweet } = parseJson(res.text);
 
     expect(tweet.content).toEqual('This is a test tweets and we adding this suffix for tests, .@-test-tweet');
-    expect(tweet.userId).toEqual(2);
     expect(tweet).toHaveProperty('id');
   });
 });

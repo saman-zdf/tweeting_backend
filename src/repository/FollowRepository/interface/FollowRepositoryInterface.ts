@@ -1,14 +1,15 @@
 import { Follow } from '@prisma/client';
 
-export interface FollowUserPayload {
+export interface FollowingUserPayload {
   userId: number;
   followingUserId: number;
 }
-export interface UserFollowPayload {
+export interface UserFollowerPayload {
   userId: number;
   followerUserId: number;
 }
 export interface FollowRepositoryInterface {
-  followUser(payload: FollowUserPayload): Promise<Follow>;
-  userFollower(payload: UserFollowPayload): Promise<Follow>;
+  followingUser(payload: FollowingUserPayload): Promise<Follow>;
+  userFollower(payload: UserFollowerPayload): Promise<Follow>;
+  getUserFollowed(followingUserId: number): Promise<Follow | null>;
 }

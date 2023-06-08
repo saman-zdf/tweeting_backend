@@ -39,6 +39,17 @@ class UserRepository implements IUserRepository {
     });
     return user;
   }
+
+  async getUserById(userId: number): Promise<User | null> {
+    logger.info('user-repository - get-user-by-id');
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
+  }
 }
 
 export default UserRepository;

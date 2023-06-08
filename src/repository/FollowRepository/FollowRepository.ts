@@ -1,7 +1,12 @@
 import { Follow, PrismaClient } from '@prisma/client';
 
+import logger from '../../lib/common/Logger';
 import prisma from '../../lib/prisma';
-import { FollowRepositoryInterface, FollowUserPayload, UserFollowPayload } from './interface/FollowRepositoryInterface';
+import {
+  FollowRepositoryInterface,
+  FollowingUserPayload,
+  UserFollowerPayload,
+} from './interface/FollowRepositoryInterface';
 
 class FollowRepository implements FollowRepositoryInterface {
   private prismaDB: PrismaClient;
@@ -10,7 +15,8 @@ class FollowRepository implements FollowRepositoryInterface {
     this.prismaDB = prisma;
   }
 
-  async followUser(payload: FollowUserPayload): Promise<Follow> {
+  async followingUser(payload: FollowingUserPayload): Promise<Follow> {
+    logger.info('follow-repository - follow-user');
     const { userId, followingUserId } = payload;
     const followingUser = await this.prismaDB.follow.create({
       data: {
@@ -22,12 +28,25 @@ class FollowRepository implements FollowRepositoryInterface {
     return followingUser;
   }
 
-  async userFollower(payload: UserFollowPayload): Promise<Follow> {
+  async userFollower(payload: UserFollowerPayload): Promise<Follow> {
+    logger.info('follow-repository - user-follower');
     const { userId, followerUserId } = payload;
     const userFollowed = await this.prismaDB.follow.create({
       data: {
         userId,
         followerUserId,
+      },
+    });
+
+    return userFollowed;
+  }
+
+  async getUserFollowed(followingUserId: number): Promise<Follow | null> {
+    logger.info('follow-repository - get-user-followed');
+
+    const userFollowed = await this.prismaDB.follow.findFirst({
+      where: {
+        followingUserId,
       },
     });
 
