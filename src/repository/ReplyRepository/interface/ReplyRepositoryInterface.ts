@@ -10,4 +10,5 @@ export interface ReplyPayload {
 export interface ReplyRepositoryInterface {
   addReply(payload: ReplyPayload): Promise<Reply>;
   getAllReplies(): Promise<Reply[]>;
+  getReplyById(replyId: number): Promise<Reply | null>;
 }
