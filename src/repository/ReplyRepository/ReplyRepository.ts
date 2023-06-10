@@ -31,6 +31,16 @@ class ReplyRepository implements ReplyRepositoryInterface {
     const allReplies = await this.prismaDB.reply.findMany();
     return allReplies;
   }
+
+  async getReplyById(replyId: number): Promise<Reply | null> {
+    logger.info('reply-repository get-reply-by-id');
+    const reply = await this.prismaDB.reply.findFirst({
+      where: {
+        id: replyId,
+      },
+    });
+    return reply;
+  }
 }
 
 export default ReplyRepository;

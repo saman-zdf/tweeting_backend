@@ -7,6 +7,7 @@ declare namespace Express {
       userIds?: string | undefined;
       userId?: string | undefined;
       tweetId?: string | undefined;
+      replyId?: string | undefined;
     };
   }
 }
