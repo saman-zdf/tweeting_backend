@@ -14,7 +14,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       throw new UnauthorizedException('Unauthorized');
     }
     const decoded = verifyToken(token);
-
+    //TODO: Find a way to fix the error for user not exist? even adding namespace for Express and adding user to the Request type wouldn't resolve this issue.
+    // @ts-ignore
     req.user = { userId: decoded?.id };
     next();
 

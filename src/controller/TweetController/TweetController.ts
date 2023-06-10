@@ -10,6 +10,7 @@ import { StatusCode } from '../../utils/StatusCodes.js';
 
 // Create tweet
 export const createTweet = async (req: Request, res: Response): Promise<void> => {
+  // @ts-ignore
   const userId = parseInt(req?.user?.userId as string, 10);
 
   const { content, imageUrl, gifUrl }: TweetPayload = req.body;
@@ -30,6 +31,7 @@ export const createTweet = async (req: Request, res: Response): Promise<void> =>
 
 // Update tweet
 export const updateTweet = async (req: Request, res: Response): Promise<void> => {
+  // @ts-ignore
   const userId = parseInt(req?.user?.userId as string, 10);
   const tweetId = parseInt(req.params.tweetId, 10);
 

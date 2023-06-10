@@ -1,7 +1,7 @@
 declare namespace Express {
   interface Request {
     user?: {
-      userId?: string | number | undefined;
+      userId?: number | string;
     };
     query?: {
       userIds?: string | undefined;

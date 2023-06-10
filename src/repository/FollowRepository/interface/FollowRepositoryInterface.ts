@@ -10,6 +10,6 @@ export interface UserFollowerPayload {
 }
 export interface FollowRepositoryInterface {
   followingUser(payload: FollowingUserPayload): Promise<Follow>;
-  userFollower(payload: UserFollowerPayload): Promise<Follow>;
+
   getUserFollowed(followingUserId: number): Promise<Follow | null>;
 }

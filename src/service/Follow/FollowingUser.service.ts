@@ -15,13 +15,13 @@ class FollowingUserService {
 
   async validate(payload: FollowingUserPayload) {
     const { followingUserId } = payload;
+    const isUserExist = await this.userRepository.getUserById(followingUserId);
 
-    const isUserFollowed = await this.followRepository.getUserFollowed(followingUserId);
-
-    if (!isUserFollowed) {
+    if (!isUserExist) {
       logger.error(`Error, user not found. ID: ${followingUserId}`);
       throw new NotFoundException(`User to follow with id ${followingUserId} not found.`);
     }
+    const isUserFollowed = await this.followRepository.getUserFollowed(followingUserId);
 
     if (isUserFollowed) {
       logger.error('Error, user already followed.');
